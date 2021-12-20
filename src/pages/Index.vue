@@ -38,11 +38,11 @@ function init() {
   const sprite = new THREE.Sprite(material)
 
   for (let i = 0; i < 1000; i++) {
-    const radius = 1000
+    const radius = 1300
     let x = THREE.Math.randFloat(-1, 1)
     let y = THREE.Math.randFloat(-1, 1)
     let z = THREE.Math.randFloat(-0.5, 0.5)
-    const normalizationFactor = 1 / Math.sqrt(x * x + y * y)
+    const normalizationFactor = 0.5 / Math.sqrt(x * x + y * y)
 
     x = x * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
     y = y * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
@@ -137,14 +137,13 @@ function render() {
   // camera.position.x += (mouseX - camera.position.x) * 0.05
   // camera.position.y += (-mouseY - camera.position.y) * 0.05
   camera.lookAt(scene.position)
-
   for (let i = 0; i < scene.children.length; i++) {
     const object = scene.children[i]
 
     if (object instanceof THREE.Points) {
       object.rotation.y = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
-      object.rotation.x = time * (i < 4 ? i + 1 : -(i + 1))
-      object.rotation.z = time * (i < 4 ? i + 1 : -(i + 1))
+      object.rotation.x = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
+      object.rotation.z = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
     }
   }
 
