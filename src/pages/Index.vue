@@ -1,4 +1,7 @@
 <template>
+  <button @click="swap">
+    Swap
+  </button>
   <div id="three" class="w-screen h-screen three overflow-hidden" />
 </template>
 
@@ -14,13 +17,30 @@ let windowHalfY = window.innerHeight / 2
 
 const materials = []
 
+let active = true
+const swap = () => {
+  if (active) {
+    for (let i = 0; i < materials.length; i++) {
+      const color = parameters[i][0]
+      materials[i].color.setHSL(0, 0.03, 0.5)
+    }
+  }
+  else {
+    for (let i = 0; i < materials.length; i++) {
+      const color = parameters[i][0]
+      materials[i].color.setHSL(0, 1, 0.5)
+    }
+  }
+  active = !active
+}
+
 onMounted(() => {
   init()
   animate()
 },
 )
 function init() {
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000)
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
   camera.position.z = 2000
 
   scene = new THREE.Scene()
@@ -130,20 +150,21 @@ function animate() {
 
   render()
 }
-
+let counter = THREE.Math.randFloat(0, 1)
 function render() {
-  const time = Date.now() * 0.00005
-
+  if (active)
+    counter += 0.0005
+  else
+    counter += 0.0001
   // camera.position.x += (mouseX - camera.position.x) * 0.05
   // camera.position.y += (-mouseY - camera.position.y) * 0.05
   camera.lookAt(scene.position)
   for (let i = 0; i < scene.children.length; i++) {
     const object = scene.children[i]
-
     if (object instanceof THREE.Points) {
-      object.rotation.y = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
-      object.rotation.x = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
-      object.rotation.z = time * (i < 4 ? i + THREE.Math.randFloat(1, 1) : -(i + 1))
+      object.rotation.y = counter * (i < 4 ? i + 1 : -(i + 1))
+      object.rotation.x = counter * (i < 4 ? i + 1 : -(i + 1))
+      object.rotation.z = counter * (i < 4 ? i + 1 : -(i + 1))
     }
   }
 
