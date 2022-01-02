@@ -48,8 +48,8 @@ function init() {
 
   // scene.fog = new THREE.FogExp2(0x000000, 0.0008)
 
-  const geometry = new THREE.BufferGeometry()
-  const vertices = []
+  let geometry = new THREE.BufferGeometry()
+  let vertices = []
 
   const textureLoader = new THREE.TextureLoader()
   const map = new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/ball.png')
@@ -57,23 +57,37 @@ function init() {
 
   const sprite = new THREE.Sprite(material)
 
-  for (let i = 0; i < 1000; i++) {
-    const radius = 1300
-    let x = THREE.Math.randFloat(-1, 1)
-    let y = THREE.Math.randFloat(-1, 1)
-    let z = THREE.Math.randFloat(-0.5, 0.5)
-    const normalizationFactor = 0.5 / Math.sqrt(x * x + y * y)
-
-    x = x * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
-    y = y * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
-    z = z * normalizationFactor * radius
-
-    vertices.push(x, y, z)
-  }
-
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
-
   parameters = [
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
+    [[0, 1, 0.5], 1, 20],
+    [[0, 1, 0.5], 1, 15],
+    [[0, 1, 0.5], 1, 10],
+    [[0, 1, 0.5], 1, 8],
+    [[0, 1, 0.5], 1, 5],
     [[0, 1, 0.5], 1, 20],
     [[0, 1, 0.5], 1, 15],
     [[0, 1, 0.5], 1, 10],
@@ -83,6 +97,23 @@ function init() {
   ]
 
   for (let i = 0; i < parameters.length; i++) {
+    for (let i = 0; i < 100; i++) {
+      const radius = 1300
+      let x = THREE.Math.randFloat(-1, 1)
+      let y = THREE.Math.randFloat(-1, 1)
+      let z = THREE.Math.randFloat(-0.5, 0.5)
+      const normalizationFactor = 0.5 / Math.sqrt(x * x + y * y)
+
+      x = x * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
+      y = y * normalizationFactor * THREE.Math.randFloat(0.5 * radius, 1.2 * radius)
+      z = z * normalizationFactor * radius
+
+      vertices.push(x, y, z)
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    vertices = []
+    geometry = new THREE.BufferGeometry()
     const color = parameters[i][0]
     // const sprite = parameters[i][1]
     const size = parameters[i][2]
@@ -150,12 +181,12 @@ function animate() {
 
   render()
 }
-let counter = THREE.Math.randFloat(0, 1)
+let counter = THREE.Math.randFloat(0, 100)
 function render() {
   if (active)
-    counter += 0.0005
-  else
     counter += 0.0001
+  else
+    counter += 0.00001
   // camera.position.x += (mouseX - camera.position.x) * 0.05
   // camera.position.y += (-mouseY - camera.position.y) * 0.05
   camera.lookAt(scene.position)
